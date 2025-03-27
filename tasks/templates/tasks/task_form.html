@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if form.instance.pk %}Update {% else %}Create{% endif %}Task</title>
+</head>
+<body>
+    <h1>{% if form.instance.pk %}Update {% else %}Create{% endif %}Task</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">{% if form.instance.pk %}Update {% else %}Save{% endif %}Task</button>
+    </form>
+    <a href="{% url "list" %}">Back to Task list</a>
+</body>
+</html>

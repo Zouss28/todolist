@@ -1,0 +1,47 @@
+{% include "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks</title>
+</head>
+<body>
+    <h1>Task List</h1>
+     {% if request.user.is_authenticated %}
+     <p>Welcome {{ user.username }}!</p>
+     <a href="{% url "logout" %}">Logout</a>
+     {% else %}
+     <a href="{% url "login" %}">Login</a> | <a href="{% url "signup" %}">Signup</a>
+     {% endif %}
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <a href="{% url 'detail' pk=task.pk %}">{{ task.title }}</a> 
+                - {% if task.completed %}
+                    <span>Completed</span>
+                    <button onclick="toggleCompletion({{ task.pk }})">Mark Incomplete</button>
+                {% else %}
+                    <span>Incomplete</span>
+                    <button onclick="toggleCompletion({{ task.pk }})">Mark Completed</button>
+                {% endif %}
+                <a href="{% url 'update' pk=task.pk %}">[Edit]</a>
+                <a href="{% url 'delete' pk=task.pk %}">[Delete]</a>
+            </li>
+        {% endfor %}
+    </ul>
+    
+    <script>
+        function toggleCompletion(taskId) {
+            fetch(`/task/${taskId}/toggle`, {
+                method: 'GET',
+            }).then(response => response.json())
+              .then(data => {
+                  // Reload the page to reflect the change
+                  location.reload();
+              });
+        }
+    </script>
+    <a href="{% url 'create' %}">Create New Task</a>
+</body>
+</html>

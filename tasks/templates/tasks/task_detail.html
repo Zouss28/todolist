@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ detail.title }}</title>
+</head>
+<body>
+    <h1>{{ detail.title }}</h1>
+    <p>{{ detail.description }}</p>
+    <p>Status: {% if detail.completed %}Completed{% else %}Incomplete{% endif %}</p>
+    <p>Created at: {{ detail.created_at }}</p>
+</body>
+</html>
